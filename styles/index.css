@@ -75,6 +75,8 @@ section {
 
 fieldset {
   border: 0;
+  display: flex;
+  gap: 10px;
 }
 
 .screen-reader-only {

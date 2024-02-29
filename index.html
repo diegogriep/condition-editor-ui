@@ -19,12 +19,26 @@
           <option value="0">Select an Operator</option>
         </select>
 
+        <select id="enumeratedFilter" multiple hidden>
+        </select>
+
         <input type="text" id="valueFilter" placeholder="Enter the value"
           aria-label="Enter the value" hidden>
 
+        <div id="wirelessOptions" hidden>
+          <label>
+            <input type="radio" name="wireless" value="true"> True
+          </label>
+
+          <label>
+            <input type="radio" name="wireless" value="false"> False
+          </label>
+        </div>
+
+        <input type="hidden" id="propertyType">
       </fieldset>
 
-      <button aria-label="Clear filters" disabled>Clear</button>
+      <button aria-label="Clear filters" disabled id="clearButton">Clear</button>
     </form>
 
     <section>
@@ -92,5 +106,8 @@
       </table>
   </section>
   </main>
+
+  <script src="scripts/datastore.js"></script>
+  <script type="module" src="scripts/index.js"></script>
 </body>
 </html>
