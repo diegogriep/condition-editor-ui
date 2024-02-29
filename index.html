@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Condition Editor</title>
+  <link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+  <main>
+    <form id="filtersForm">
+      <fieldset>
+        <legend class="screen-reader-only">Available filters</legend>
+        <select id="propertyFilter">
+          <option value="0">Select a Property</option>
+        </select>
+
+        <select id="operatorFilter" disabled>
+          <option value="0">Select an Operator</option>
+        </select>
+
+        <input type="text" id="valueFilter" placeholder="Enter the value"
+          aria-label="Enter the value" hidden>
+
+      </fieldset>
+
+      <button aria-label="Clear filters" disabled>Clear</button>
+    </form>
+
+    <section>
+      <table id="filterResult" role="table" summary="List of Products and their properties">
+        <caption class="screen-reader-only">Condition Editor Results</caption>
+        <thead role="rowgroup">
+          <tr>
+            <th scope="col">Product Name</th>
+            <th scope="col">Color</th>
+            <th scope="col">Weight (oz)</th>
+            <th scope="col">Category</th>
+            <th scope="col">Wireless</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>Headphones</td>
+            <td>black</td>
+            <td>5</td>
+            <td>electronics</td>
+            <td>false</td>
+          </tr>
+
+          <tr>
+            <td>Cell Phone</td>
+            <td>black</td>
+            <td>3</td>
+            <td>electronics</td>
+            <td>true</td>
+          </tr>
+
+          <tr>
+            <td>Keyboard</td>
+            <td>grey</td>
+            <td>5</td>
+            <td>electronics</td>
+            <td>false</td>
+          </tr>
+
+          <tr>
+            <td>Cup</td>
+            <td>white</td>
+            <td>3</td>
+            <td>kitchenware</td>
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>Key</td>
+            <td>silver</td>
+            <td>1</td>
+            <td>tools</td>
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>Hammer</td>
+            <td>brown</td>
+            <td>19</td>
+            <td>tools</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+  </section>
+  </main>
+</body>
+</html>

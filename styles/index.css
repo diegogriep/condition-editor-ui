@@ -1,0 +1,93 @@
+:root {
+  --default-space: 20px;
+  --primary-color: purple;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  justify-content: center;
+  display: flex;
+  padding-top: var(--default-space);
+}
+
+main {
+  border: 1px solid #000;
+  width: 90%;
+}
+
+section {
+  padding-top: var(--default-space);
+}
+
+form {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--default-space) var(--default-space) 0;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  padding: 6px;
+  text-align: left;
+  border: 1px solid #000;
+}
+
+th {
+  background-color: var(--primary-color);
+  border-bottom: 0;
+  color: #fff;
+}
+
+th:first-child,
+td:first-child {
+  border-left: 0;
+}
+
+th:last-child,
+td:last-child {
+  border-right: 0;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #f5f5f5;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+section {
+  width: 100%;
+  overflow-x: auto;
+}
+
+fieldset {
+  border: 0;
+}
+
+.screen-reader-only {
+  height: 1px;
+  left: -10000px;
+  overflow: hidden;
+  position: absolute;
+  top: auto;
+  width: 1px;
+}
+
+@media (min-width: 700px) {
+  main {
+    width: 50%;
+  }
+}
