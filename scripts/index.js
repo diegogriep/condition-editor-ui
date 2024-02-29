@@ -1,7 +1,10 @@
-import { feedData, handleOperatorsByPropertyType } from "./utils.js"
+import { feedData, handleOperatorsByPropertyType, mountTable } from "./utils.js"
 
 // database
 const data = window.datastore
+
+// table data
+mountTable(data.getProducts())
 
 // property filter
 const propertyFilter = document.getElementById('propertyFilter')

@@ -35,3 +35,19 @@ function removeAll(selectBox) {
     selectBox.remove(1);
   }
 }
+
+export const mountTable = (products) => {
+  let dataTable = '';
+  products.forEach(({ id, property_values }) => {
+    dataTable += `<tr>`
+    property_values.forEach(({ value }, index) => {
+      dataTable += `<td>${value}</td>`
+      if (property_values.length === 4 && index === 3) {
+        dataTable += `<td></td>`
+      }
+    })
+    dataTable += `</tr>`
+  })
+
+  document.querySelector('tbody').innerHTML = dataTable
+}
