@@ -73,7 +73,6 @@ export const filterResults = (products, searchBy, criterion, typeSearch, propert
   mountTable(productsList)
 }
 
-// furthermore works as callback to filter method
 export function filterCriteria(operator, searchTerm, obj, typeSearch) {
   let searchBy = typeSearch === 'number' ? parseInt(searchTerm) : searchTerm
   let valuesArray = [];
