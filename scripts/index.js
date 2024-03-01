@@ -129,6 +129,8 @@ import { feedData, filterResults, handleOperatorsByPropertyType, mountTable } fr
   })
 
   const clearAll = () => {
+    propertyFilter.firstElementChild.setAttribute('selected', true)
+    clearButton.setAttribute('disabled', true);
     enumeratedFilter.setAttribute('hidden', true)
     valueFilter.setAttribute('hidden', true)
     operatorFilter.setAttribute('disabled', true);
@@ -136,5 +138,8 @@ import { feedData, filterResults, handleOperatorsByPropertyType, mountTable } fr
     mountTable(products)
   }
 
-  clearButton.addEventListener('click', clearAll)
+  clearButton.addEventListener('click', (event) => {
+    event.preventDefault()
+    clearAll()
+  })
 })();
