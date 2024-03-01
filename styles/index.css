@@ -27,6 +27,7 @@ section {
 }
 
 form {
+  align-items: start;
   display: flex;
   justify-content: space-between;
   padding: var(--default-space) var(--default-space) 0;
@@ -61,7 +62,7 @@ td:last-child {
 }
 
 tbody tr:nth-child(odd) {
-  background-color: #f5f5f5;
+  background-color: #ccc;
 }
 
 tbody tr:last-child td {
@@ -74,6 +75,7 @@ section {
 }
 
 fieldset {
+  align-items: start;
   border: 0;
   display: flex;
   gap: 10px;

@@ -12,11 +12,11 @@
       <fieldset>
         <legend class="screen-reader-only">Available filters</legend>
         <select id="propertyFilter">
-          <option value="0">Select a Property</option>
+          <option value="">Select a Property</option>
         </select>
 
         <select id="operatorFilter" disabled>
-          <option value="0">Select an Operator</option>
+          <option value="">Select an Operator</option>
         </select>
 
         <select id="enumeratedFilter" multiple hidden>
@@ -24,16 +24,6 @@
 
         <input type="text" id="valueFilter" placeholder="Enter the value"
           aria-label="Enter the value" hidden>
-
-        <div id="wirelessOptions" hidden>
-          <label>
-            <input type="radio" name="wireless" value="true"> True
-          </label>
-
-          <label>
-            <input type="radio" name="wireless" value="false"> False
-          </label>
-        </div>
 
         <input type="hidden" id="propertyType">
       </fieldset>

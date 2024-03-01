@@ -1,102 +1,140 @@
-import { feedData, handleOperatorsByPropertyType, mountTable } from "./utils.js"
+import { feedData, filterResults, handleOperatorsByPropertyType, mountTable } from "./utils.js"
 
-// database
-const data = window.datastore
+(function() {
+  'use strict';
+  // database
+  const data = window.datastore
+  const products = data.getProducts()
 
-// table data
-mountTable(data.getProducts())
+  // table data
+  mountTable(products)
 
-// property filter
-const propertyFilter = document.getElementById('propertyFilter')
+  // property filter
+  const propertyFilter = document.getElementById('propertyFilter')
 
-// operator filter
-const operatorFilter = document.getElementById('operatorFilter')
+  // operator filter
+  const operatorFilter = document.getElementById('operatorFilter')
 
-// enumerated filter
-const enumeratedFilter = document.getElementById('enumeratedFilter')
+  // enumerated filter
+  const enumeratedFilter = document.getElementById('enumeratedFilter')
 
-// wireless options
-const wirelessOptions = document.getElementById('wirelessOptions')
+  // value filter options
+  const valueFilter = document.getElementById('valueFilter')
 
-// value filter options
-const valueFilter = document.getElementById('valueFilter')
+  // property type
+  const propertyType = document.getElementById('propertyType')
 
-// property type
-const propertyType = document.getElementById('propertyType')
+  // clear button
+  const clearButton = document.getElementById('clearButton')
 
-// clear button
-const clearButton = document.getElementById('clearButton')
+  const propertyFilterData = data.getProperties().map(property => property)
+  const operatorFilterData = data.getOperators().map(property => property)
 
-const propertyFilterData = data.getProperties().map(property => property)
-const operatorFilterData = data.getOperators().map(property => property)
+  const optionKeyValue = 'name,id'
+  feedData(propertyFilter, propertyFilterData, optionKeyValue)
 
-const optionKeyValue = 'name'
-feedData(propertyFilter, propertyFilterData, optionKeyValue)
-
-propertyFilter.addEventListener('change', (event) => {
-  let selected = event.target.value
-  enumeratedFilter.setAttribute('hidden', true)
-  valueFilter.setAttribute('hidden', true)
-  wirelessOptions.setAttribute('hidden', true)
-
-  if (event.target.value !== '0') {
-    // enabling select
-    operatorFilter.removeAttribute('disabled');
-
-    // handling what field display
-    const selectedProperty = propertyFilterData.filter(
-      property => property.name === selected)[0]
-    const { name, type, values } = selectedProperty
-
-    propertyType.value = type
-
-    const optionValue = 'text,id'
-    feedData(operatorFilter,
-      handleOperatorsByPropertyType(type, operatorFilterData),
-      optionValue)
-
-    if (type === 'enumerated') {
-      if (name === 'category') {
-        return feedData(enumeratedFilter, values)
-      }
-
-    }
-  } else {
-    operatorFilter.setAttribute('disabled', true);
-    operatorFilter.firstElementChild.setAttribute('selected', true)
-  }
-})
-
-operatorFilter.addEventListener('change', () => {
-  const property = propertyType.value
-
-  if (property === 'enumerated') {
-    if (propertyFilter.value === 'wireless') {
-      return wirelessOptions.removeAttribute('hidden');
-    }
-
+  propertyFilter.addEventListener('change', (event) => {
+    let selected = parseInt(event.target.value)
+    enumeratedFilter.setAttribute('hidden', true)
     valueFilter.setAttribute('hidden', true)
 
-    return enumeratedFilter.removeAttribute('hidden');
-  }
+    if (event.target.value) {
+      clearButton.removeAttribute('disabled')
 
-  enumeratedFilter.setAttribute('hidden', true)
+      // enabling select
+      operatorFilter.removeAttribute('disabled');
 
-  let inputType = property === 'string' ? 'text' : 'number'
+      // handling what field display
+      const selectedProperty = propertyFilterData.filter(
+        property => property.id === selected)[0]
+      const { name, type, values } = selectedProperty
 
-  valueFilter.setAttribute('type', inputType)
-  valueFilter.removeAttribute('hidden')
-})
+      propertyType.value = type
 
-enumeratedFilter.addEventListener('change', () => {
-  let selected = []
+      const optionValue = 'text,id'
+      feedData(operatorFilter,
+        handleOperatorsByPropertyType(type, operatorFilterData),
+        optionValue)
 
-  for (const option of enumeratedFilter.options) {
-    if (option.selected) {
-      selected.push(option.value);
+      if (type === 'enumerated') {
+        return feedData(enumeratedFilter, values)
+      }
+    } else {
+      clearAll()
     }
+  })
+
+  operatorFilter.addEventListener('change', () => {
+    const property = propertyType.value
+    const operator = operatorFilter.value
+
+    if (property === 'enumerated') {
+      enumeratedFilter.removeAttribute('hidden');
+
+      valueFilter.setAttribute('hidden', true)
+
+    } else {
+      enumeratedFilter.setAttribute('hidden', true)
+    }
+
+    if (property === 'string' || property === 'number') {
+      valueFilter.removeAttribute('hidden')
+    }
+
+    if (operator !== 'any' && operator !== 'none') {
+      // valueFilter.removeAttribute('hidden')
+    } else {
+      enumeratedFilter.setAttribute('hidden', true)
+      valueFilter.setAttribute('hidden', true)
+      filterResults(
+        products,
+        '',
+        operatorFilter.value,
+        propertyType.value,
+        propertyFilter.value,
+      );
+
+    }
+  })
+
+  enumeratedFilter.addEventListener('change', () => {
+    let selected = []
+
+    for (const option of enumeratedFilter.options) {
+      if (option.selected) {
+        selected.push(option.value);
+      }
+    }
+
+    filterResults(
+      products,
+      selected,
+      operatorFilter.value,
+      propertyType.value,
+      propertyFilter.value,
+    );
+  })
+
+  valueFilter.addEventListener('blur', (event) => {
+    const inputValue = event.target.value
+
+    inputValue &&
+      filterResults(
+        products,
+        inputValue,
+        operatorFilter.value,
+        propertyType.value,
+        propertyFilter.value,
+      );
+  })
+
+  const clearAll = () => {
+    enumeratedFilter.setAttribute('hidden', true)
+    valueFilter.setAttribute('hidden', true)
+    operatorFilter.setAttribute('disabled', true);
+    operatorFilter.firstElementChild.setAttribute('selected', true)
+    mountTable(products)
   }
 
-  // TODO: debounce
-  console.log(selected);
-})
+  clearButton.addEventListener('click', clearAll)
+})();
