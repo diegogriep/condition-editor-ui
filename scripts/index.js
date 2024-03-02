@@ -10,97 +10,89 @@ import { feedData, filterResults, handleOperatorsByPropertyType, mountTable } fr
   mountTable(products)
 
   // property filter
-  const propertyFilter = document.getElementById('propertyFilter')
-
-  // operator filter
-  const operatorFilter = document.getElementById('operatorFilter')
-
-  // enumerated filter
-  const enumeratedFilter = document.getElementById('enumeratedFilter')
-
-  // value filter options
-  const valueFilter = document.getElementById('valueFilter')
-
-  // property type
-  const propertyType = document.getElementById('propertyType')
-
-  // clear button
-  const clearButton = document.getElementById('clearButton')
+  const ui = {
+    propertyFilter: document.getElementById('propertyFilter'),
+    operatorFilter: document.getElementById('operatorFilter'),
+    enumeratedFilter: document.getElementById('enumeratedFilter'),
+    valueFilter: document.getElementById('valueFilter'),
+    propertyType: document.getElementById('propertyType'),
+    clearButton: document.getElementById('clearButton'),
+  }
 
   const propertyFilterData = data.getProperties().map(property => property)
   const operatorFilterData = data.getOperators().map(property => property)
 
   const optionKeyValue = 'name,id'
-  feedData(propertyFilter, propertyFilterData, optionKeyValue)
+  feedData(ui.propertyFilter, propertyFilterData, optionKeyValue)
 
-  propertyFilter.addEventListener('change', (event) => {
+  ui.propertyFilter.addEventListener('change', (event) => {
     let selected = parseInt(event.target.value)
-    enumeratedFilter.setAttribute('hidden', true)
-    valueFilter.setAttribute('hidden', true)
+    ui.enumeratedFilter.setAttribute('hidden', true)
+    ui.valueFilter.setAttribute('hidden', true)
 
     if (event.target.value) {
-      clearButton.removeAttribute('disabled')
+      ui.clearButton.removeAttribute('disabled')
 
       // enabling select
-      operatorFilter.removeAttribute('disabled');
+      ui.operatorFilter.removeAttribute('disabled');
 
       // handling what field display
       const selectedProperty = propertyFilterData.filter(
         property => property.id === selected)[0]
       const { name, type, values } = selectedProperty
 
-      propertyType.value = type
+      ui.propertyType.value = type
 
       const optionValue = 'text,id'
-      feedData(operatorFilter,
+      feedData(ui.operatorFilter,
         handleOperatorsByPropertyType(type, operatorFilterData),
         optionValue)
 
       if (type === 'enumerated') {
-        return feedData(enumeratedFilter, values)
+        return feedData(ui.enumeratedFilter, values)
       }
     } else {
       clearAll()
     }
   })
 
-  operatorFilter.addEventListener('change', () => {
-    const property = propertyType.value
-    const operator = operatorFilter.value
+  ui.operatorFilter.addEventListener('change', () => {
+    const property = ui.propertyType.value
+    const operator = ui.operatorFilter.value
 
     if (property === 'enumerated') {
-      enumeratedFilter.removeAttribute('hidden');
+      ui.enumeratedFilter.removeAttribute('hidden');
 
-      valueFilter.setAttribute('hidden', true)
+      ui.valueFilter.setAttribute('hidden', true)
 
     } else {
-      enumeratedFilter.setAttribute('hidden', true)
+      ui.enumeratedFilter.setAttribute('hidden', true)
     }
 
     if (property === 'string' || property === 'number') {
-      valueFilter.removeAttribute('hidden')
+      ui.valueFilter.removeAttribute('hidden')
     }
 
     if (operator !== 'any' && operator !== 'none') {
-      // valueFilter.removeAttribute('hidden')
+      // ui.valueFilter.removeAttribute('hidden')
     } else {
-      enumeratedFilter.setAttribute('hidden', true)
-      valueFilter.setAttribute('hidden', true)
+      ui.enumeratedFilter.setAttribute('hidden', true)
+      ui.valueFilter.setAttribute('hidden', true)
       filterResults(
         products,
         '',
-        operatorFilter.value,
-        propertyType.value,
-        propertyFilter.value,
+        ui.operatorFilter.value,
+        ui.propertyType.value,
+        ui.propertyFilter.value,
       );
 
     }
   })
 
-  enumeratedFilter.addEventListener('change', () => {
+  ui.enumeratedFilter.addEventListener('change', () => {
     let selected = []
 
-    for (const option of enumeratedFilter.options) {
+    for (const option of ui.enumeratedFilter.options) {
       if (option.selected) {
         selected.push(option.value);
       }
@@ -109,36 +101,36 @@ import { feedData, filterResults, handleOperatorsByPropertyType, mountTable } fr
     filterResults(
       products,
       selected,
-      operatorFilter.value,
-      propertyType.value,
-      propertyFilter.value,
+      ui.operatorFilter.value,
+      ui.propertyType.value,
+      ui.propertyFilter.value,
     );
   })
 
-  valueFilter.addEventListener('blur', (event) => {
+  ui.valueFilter.addEventListener('blur', (event) => {
     const inputValue = event.target.value
 
     inputValue &&
       filterResults(
         products,
         inputValue,
-        operatorFilter.value,
-        propertyType.value,
-        propertyFilter.value,
+        ui.operatorFilter.value,
+        ui.propertyType.value,
+        ui.propertyFilter.value,
       );
   })
 
   const clearAll = () => {
-    propertyFilter.firstElementChild.setAttribute('selected', true)
-    clearButton.setAttribute('disabled', true);
-    enumeratedFilter.setAttribute('hidden', true)
-    valueFilter.setAttribute('hidden', true)
-    operatorFilter.setAttribute('disabled', true);
-    operatorFilter.firstElementChild.setAttribute('selected', true)
+    ui.propertyFilter.firstElementChild.setAttribute('selected', true)
+    ui.clearButton.setAttribute('disabled', true);
+    ui.enumeratedFilter.setAttribute('hidden', true)
+    ui.valueFilter.setAttribute('hidden', true)
+    ui.operatorFilter.setAttribute('disabled', true);
+    ui.operatorFilter.firstElementChild.setAttribute('selected', true)
     mountTable(products)
   }
 
-  clearButton.addEventListener('click', (event) => {
+  ui.clearButton.addEventListener('click', (event) => {
     event.preventDefault()
     clearAll()
   })

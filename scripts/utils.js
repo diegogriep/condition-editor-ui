@@ -1,11 +1,13 @@
 export const feedData = (selectID, data, contentOption) => {
-  removeAll(selectID)
   let keyText, keyValue = ''
 
   if (contentOption) {
     keyText = contentOption.split(',')
     keyValue = keyText[1] ?? keyText[0]
     keyText = keyText[0]
+    removeOptions(selectID)
+  } else {
+    removeOptions(selectID, 0)
   }
 
   for (let i = 0; i < data['length']; i++) {
@@ -30,15 +32,15 @@ export const handleOperatorsByPropertyType = (propertyType, operators) => {
   return positionsToReturn.map(index => operators[index])
 }
 
-function removeAll(selectBox) {
-  while (selectBox.options.length > 1) {
-    selectBox.remove(1)
+function removeOptions(selectBox, fromPosition) {
+  while (selectBox.options.length > 0) {
+    selectBox.remove(fromPosition ?? 1)
   }
 }
 
 export const mountTable = (products) => {
   let dataTable = ''
-  products.forEach(({ id, property_values }) => {
+  products.forEach(({ property_values }) => {
     dataTable += `<tr>`
     property_values
       .forEach(({ value }, index) => {
@@ -66,9 +68,6 @@ export const filterResults = (products, searchBy, criterion, typeSearch, propert
     if(ch && ch.length) acc.push({...a})
     return acc
   }, [])
-
-  console.log(products);
-  console.log(productsList);
 
   mountTable(productsList)
 }
@@ -98,15 +97,15 @@ export function filterCriteria(operator, searchTerm, obj, typeSearch) {
   }
 
   const criteria = {
-    'equals': obj['value'] === searchBy,
-    'greater_than': obj['value'] > searchBy,
-    'less_than': obj['value'] < searchBy,
-    'any': obj['value'],
-    'none': !obj['value'] || obj['value'] === undefined,
-    'in': valuesArray.includes(obj['value']),
-    'contains': typeof obj['value'] === 'string' &&
+    'equals': () => obj['value'] === searchBy,
+    'greater_than': () => obj['value'] > searchBy,
+    'less_than': () =>  obj['value'] < searchBy,
+    'any': () =>  obj['value'],
+    'none': () =>  !obj['value'] || obj['value'] === undefined,
+    'in': () =>  valuesArray.includes(obj['value']),
+    'contains': () => typeof obj['value'] === 'string' &&
       obj['value'].toLowerCase().indexOf(searchBy) >= 0,
   }
 
-  return criteria[operator]
+  return criteria[operator]()
 }
