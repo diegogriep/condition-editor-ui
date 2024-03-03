@@ -109,3 +109,13 @@ export function filterCriteria(operator, searchTerm, obj, typeSearch) {
 
   return criteria[operator]()
 }
+
+export function debounce(func, delay = 500) {
+  let timerId;
+  return (...args) => {
+      clearTimeout(timerId);
+      timerId = setTimeout(() => {
+          func.apply(this, args);
+      }, delay);
+  };
+}

@@ -1,4 +1,4 @@
-import { feedData, filterResults, handleOperatorsByPropertyType, mountTable } from "./utils.js"
+import { debounce, feedData, filterResults, handleOperatorsByPropertyType, mountTable } from "./utils.js"
 
 (function() {
   'use strict';
@@ -94,30 +94,26 @@ import { feedData, filterResults, handleOperatorsByPropertyType, mountTable } fr
 
     for (const option of ui.enumeratedFilter.options) {
       if (option.selected) {
-        selected.push(option.value);
+        selected.push(option.value)
       }
     }
 
+    debouncedUserInput(selected)
+  })
+
+  const debouncedUserInput = debounce((inputValue) =>
     filterResults(
       products,
-      selected,
+      inputValue,
       ui.operatorFilter.value,
       ui.propertyType.value,
       ui.propertyFilter.value,
-    );
-  })
+    ))
 
-  ui.valueFilter.addEventListener('blur', (event) => {
+  ui.valueFilter.addEventListener('keyup', (event) => {
     const inputValue = event.target.value
 
-    inputValue &&
-      filterResults(
-        products,
-        inputValue,
-        ui.operatorFilter.value,
-        ui.propertyType.value,
-        ui.propertyFilter.value,
-      );
+    debouncedUserInput(inputValue)
   })
 
   const clearAll = () => {
