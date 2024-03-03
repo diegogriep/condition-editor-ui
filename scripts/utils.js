@@ -7,7 +7,7 @@ export const feedData = (selectID, data, contentOption) => {
     keyText = keyText[0]
     removeOptions(selectID)
   } else {
-    removeOptions(selectID, 0)
+    selectID.innerHTML = ''
   }
 
   for (let i = 0; i < data['length']; i++) {
@@ -32,9 +32,9 @@ export const handleOperatorsByPropertyType = (propertyType, operators) => {
   return positionsToReturn.map(index => operators[index])
 }
 
-function removeOptions(selectBox, fromPosition) {
-  while (selectBox.options.length > 0) {
-    selectBox.remove(fromPosition ?? 1)
+function removeOptions(selectBox) {
+  while (selectBox.options.length > 1) {
+    selectBox.remove(1)
   }
 }
 
