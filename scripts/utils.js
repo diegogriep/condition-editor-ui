@@ -1,4 +1,5 @@
 export const feedData = (selectID, data, contentOption) => {
+  const dataLength = data['length']
   let keyText, keyValue = ''
 
   if (contentOption) {
@@ -8,9 +9,10 @@ export const feedData = (selectID, data, contentOption) => {
     removeOptions(selectID)
   } else {
     selectID.innerHTML = ''
+    selectID.setAttribute('size', dataLength)
   }
 
-  for (let i = 0; i < data['length']; i++) {
+  for (let i = 0; i < dataLength; i++) {
     let option = document.createElement('option')
     option.text = contentOption ? data[i][keyText] : data[i]
     option.value = contentOption ? data[i][keyValue] : data[i]
@@ -53,15 +55,17 @@ export const mountTable = (products) => {
     dataTable += `</tr>`
   })
 
-  document.querySelector('tbody').innerHTML = dataTable
+  document.querySelector('tbody').innerHTML = products.length > 0
+    ? dataTable
+    : 'No product was found with that criterion'
 }
 
 export const filterResults = (products, searchBy, criterion, typeSearch, propertyID) => {
   const productsList = products.reduce((acc, a) => {
     const ch = a.property_values.filter(
       product => {
-          return product?.property_id === parseInt(propertyID) &&
-            filterCriteria(criterion, searchBy, product, typeSearch)
+        return product?.property_id === parseInt(propertyID) &&
+          filterCriteria(criterion, searchBy, product, typeSearch)
       }
     )
 
