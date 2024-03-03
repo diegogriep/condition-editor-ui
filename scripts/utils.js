@@ -57,7 +57,11 @@ export const mountTable = (products) => {
 
   document.querySelector('tbody').innerHTML = products.length > 0
     ? dataTable
-    : 'No product was found with that criterion'
+    : `<tr>
+        <td colspan="5">
+        No product was found with that criterion
+        </td>
+      </tr>`
 }
 
 export const filterResults = (products, searchBy, criterion, typeSearch, propertyID) => {

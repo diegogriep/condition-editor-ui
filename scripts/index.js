@@ -73,17 +73,15 @@ import { debounce, feedData, filterResults, handleOperatorsByPropertyType, mount
       ui.valueFilter.removeAttribute('hidden')
     }
 
-    if (operator !== 'any' && operator !== 'none') {
-      // ui.valueFilter.removeAttribute('hidden')
-    } else {
+    if (operator === 'any' || operator === 'none') {
       ui.enumeratedFilter.setAttribute('hidden', true)
       ui.valueFilter.setAttribute('hidden', true)
       filterResults(
         products,
         '',
         ui.operatorFilter.value,
-        ui.propertyType.value,
-        ui.propertyFilter.value,
+        property,
+        operator,
       );
 
     }
