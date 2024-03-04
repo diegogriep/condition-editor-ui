@@ -113,12 +113,13 @@ function contentHandler() {
   })
 
   const clearAll = () => {
-    ui.propertyFilter.firstElementChild.setAttribute('selected', true)
+    ui.propertyFilter.value = ''
     ui.clearButton.setAttribute('disabled', true);
     ui.enumeratedFilter.setAttribute('hidden', true)
     ui.valueFilter.setAttribute('hidden', true)
+    ui.valueFilter.value = ''
     ui.operatorFilter.setAttribute('disabled', true);
-    ui.operatorFilter.firstElementChild.setAttribute('selected', true)
+    ui.operatorFilter.value =''
     mountTable(products)
   }
 
