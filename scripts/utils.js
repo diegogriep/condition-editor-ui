@@ -67,11 +67,9 @@ export const mountTable = (products) => {
 export const filterResults = (products, searchBy, criterion, typeSearch, propertyID) => {
   const productsList = products.reduce((acc, a) => {
     const ch = a.property_values.filter(
-      product => {
-        return product?.property_id === parseInt(propertyID) &&
-          filterCriteria(criterion, searchBy, product, typeSearch)
-      }
-    )
+      product =>  product?.property_id === parseInt(propertyID) &&
+        filterCriteria(criterion, searchBy, product, typeSearch)
+      )
 
     if(ch && ch.length) acc.push({...a})
     return acc
@@ -107,10 +105,10 @@ export function filterCriteria(operator, searchTerm, obj, typeSearch) {
   const criteria = {
     'equals': () => obj['value'] === searchBy,
     'greater_than': () => obj['value'] > searchBy,
-    'less_than': () =>  obj['value'] < searchBy,
-    'any': () =>  obj['value'],
-    'none': () =>  !obj['value'] || obj['value'] === undefined,
-    'in': () =>  valuesArray.includes(obj['value']),
+    'less_than': () => obj['value'] < searchBy,
+    'any': () => obj['value'],
+    'none': () => !obj['value'] || obj['value'] === undefined,
+    'in': () => valuesArray.includes(obj['value']),
     'contains': () => typeof obj['value'] === 'string' &&
       obj['value'].toLowerCase().indexOf(searchBy) >= 0,
   }
