@@ -1,0 +1,23 @@
+{
+  "name": "condition-editor-ui",
+  "version": "1.0.0",
+  "description": "The best editor in the world",
+  "main": "index.js",
+  "repository": "git@github.com:diegogriep/condition-editor-ui.git",
+  "author": "Diego Griep <hello@diegogriep.dev>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "jest-environment-jsdom"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
