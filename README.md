@@ -4,6 +4,8 @@ The best editor in the world :)
 
 ## Hello there 👋
 
+It’s important to mention that I did it on vanilla javascript because this way could be library/framework agnostic.
+
 Available on <https://condition-editor-ui.vercel.app/>
 
 I've split the work on a [project](https://github.com/users/diegogriep/projects/3) like a Kanban with my thoughts and commits relations.
